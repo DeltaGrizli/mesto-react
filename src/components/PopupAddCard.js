@@ -1,12 +1,13 @@
 import PopupWithForm from "./PopupWithForm";
 
-function PopupAddCad({ isOpen, onClose }) {
+function PopupAddCard({ isOpen, onClose }) {
   return (
     <PopupWithForm
       name={'popupAddCard'}
       title='Новое место'
       onClose={onClose}
       isOpen={isOpen}
+      textButton='Создать'
       children={
         <>
           <div className="form__section">
@@ -39,4 +40,4 @@ function PopupAddCad({ isOpen, onClose }) {
   )
 }
 
-export default PopupAddCad
+export default PopupAddCard
