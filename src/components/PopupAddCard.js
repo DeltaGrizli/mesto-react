@@ -1,6 +1,19 @@
 import PopupWithForm from "./PopupWithForm";
+import { useRef } from "react";
 
-function PopupAddCard({ isOpen, onClose }) {
+function PopupAddCard({ isOpen, onClose, onAddPlace }) {
+  const nameRef = useRef();
+  const linkRef = useRef();
+
+  function handleSubmit(e) {
+    e.preventDefault()
+
+    onAddPlace({
+      name: nameRef.current.value,
+      link: linkRef.current.value
+    })
+  }
+
   return (
     <PopupWithForm
       name={'popupAddCard'}
@@ -8,6 +21,7 @@ function PopupAddCard({ isOpen, onClose }) {
       onClose={onClose}
       isOpen={isOpen}
       textButton='Создать'
+      handleSubmit={handleSubmit}
       children={
         <>
           <div className="form__section">
@@ -20,6 +34,7 @@ function PopupAddCard({ isOpen, onClose }) {
                   id="editTitle"
                   minLength="2"
                   maxLength="30"
+                  ref={nameRef}
                 />
                 <span className="form__input-error editTitle-error" />
               </div>
@@ -31,6 +46,7 @@ function PopupAddCard({ isOpen, onClose }) {
                   placeholder="Ссылка на картинку"
                   className="form__input form__input_format_subtitle"
                   id="editSubtitle"
+                  ref={linkRef}
                 />
                 <span className="form__input-error editSubtitle-error" />
               </div>

@@ -1,6 +1,33 @@
 import PopupWithForm from "./PopupWithForm";
+import { useContext, useEffect, useState } from "react";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
-function PopupEditProfile({ isOpen, onClose }) {
+function PopupEditProfile({ isOpen, onClose, onUpdate }) {
+  const [nameForm, setNameForm] = useState('')
+  const [description, setDescription] = useState('')
+  const currentUser = useContext(CurrentUserContext);
+
+  useEffect(() => {
+    setNameForm(currentUser.name);
+    setDescription(currentUser.about);
+  }, [currentUser]);
+
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    onUpdate({
+      name: nameForm,
+      about: description
+    })
+  }
+
+  function handleChangeName(e) {
+    setNameForm(e.target.value)
+  }
+  function handleChangedescription(e) {
+    setDescription(e.target.value)
+  }
+
   return (
     <PopupWithForm
       name={'popupEditProfile'}
@@ -8,6 +35,7 @@ function PopupEditProfile({ isOpen, onClose }) {
       onClose={onClose}
       isOpen={isOpen}
       textButton='Сохранить'
+      handleSubmit={handleSubmit}
       children={
         <>
           <div className="form__section">
@@ -20,6 +48,8 @@ function PopupEditProfile({ isOpen, onClose }) {
                   id="editProfileTitle"
                   minLength="2"
                   maxLength="40"
+                  value={nameForm || ''}
+                  onChange={handleChangeName}
                 />
                 <span className="form__input-error editProfileTitle-error" />
               </div>
@@ -33,6 +63,8 @@ function PopupEditProfile({ isOpen, onClose }) {
                   id="editProfileSubtitle"
                   minLength="2"
                   maxLength="200"
+                  value={description || ''}
+                  onChange={handleChangedescription}
                 />
                 <span className="form__input-error editProfileSubtitle-error" />
               </div>
