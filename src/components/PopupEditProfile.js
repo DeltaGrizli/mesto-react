@@ -3,20 +3,20 @@ import { useContext, useEffect, useState } from "react";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function PopupEditProfile({ isOpen, onClose, onUpdate }) {
-  const [nameForm, setNameForm] = useState('')
+  const [userName, setNameForm] = useState('')
   const [description, setDescription] = useState('')
   const currentUser = useContext(CurrentUserContext);
 
   useEffect(() => {
     setNameForm(currentUser.name);
     setDescription(currentUser.about);
-  }, [currentUser]);
+  }, [currentUser, isOpen]);
 
   function handleSubmit(e) {
     e.preventDefault();
 
     onUpdate({
-      name: nameForm,
+      name: userName,
       about: description
     })
   }
@@ -48,7 +48,7 @@ function PopupEditProfile({ isOpen, onClose, onUpdate }) {
                   id="editProfileTitle"
                   minLength="2"
                   maxLength="40"
-                  value={nameForm || ''}
+                  value={userName || ''}
                   onChange={handleChangeName}
                 />
                 <span className="form__input-error editProfileTitle-error" />
